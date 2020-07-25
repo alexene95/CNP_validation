@@ -1,0 +1,281 @@
+##dictionary declaration
+
+def month(i):
+    switcher={
+        'Ianuarie':1,
+        'Februarie':2,
+        'Martie':3,
+        'Aprilie':4,
+        'Mai':5,
+        'Iunie':6,
+        'Iulie':7,
+        'August':8,
+        'Septembrie':9,
+        'Octombrie':10,
+        'Noiembrie':11,
+        'Decembrie':12
+    }
+    return switcher.get(i,"Invalid month")
+    
+
+
+def reg(j):
+    switcher={
+        'Alba':1,
+        'Arad':2,
+        'Arges':3,
+        'Bacau':4,
+        'Bihor':5,
+        'Bistrita-Nasaud':6,
+        'Botosani':7,
+        'Brasov':8,
+        'Braila':9,
+        'Buzau':10,
+        'Caras-Severin':11,
+        'Cluj':12,
+        'Constanta':13,
+        'Covasna':14,
+        'Dambovita':15,
+        'Dolj':16,
+        'Galati':17,
+        'Gorj':18,
+        'Harghita':19, 
+        'Hunedoara':20,
+        'Ialomita':21,
+        'Iasi':22,
+        'Ilfov':23,
+        'Maramures':24,
+        'Mehedinti':25,
+        'Mures':26,
+        'Neamt':27,
+        'Olt':28,
+        'Prahova':29, 
+        'Satu Mare':30,
+        'Salaj':31,
+        'Sibiu':32,
+        'Suceava':33,
+        'Teleorman':34,
+        'Timis':35,
+        'Tulcea':36,
+        'Vaslui':37,
+        'Valcea':38,
+        'Vrancea':39,
+        'Bucuresti':40,
+        'Bucuresti Sector 1':41,
+        'Bucuresti Sector 2':42,
+        'Bucuresti Sector 3':43,
+        'Bucuresti Sector 4':44,
+        'Bucuresti Sector 5':45,
+        'Bucuresti Sector 6':46,
+        'Calarasi':51,
+        'Giurgiu':52,
+                
+    }
+    return switcher.get(j,"Invalid region")
+
+
+
+##data gathering 
+
+while True:
+    print('Aveti nationalitate Romana?')
+    nationalitate = input()
+    if nationalitate!= "da" and  nationalitate!="nu":
+        print("Alegeti un raspuns valid(da/nu)!")
+        continue
+    else: 
+        break
+
+if nationalitate == "nu":
+    while True:
+        print('Sunteti rezident Roman?')
+        rezident_roman = input ()
+        if rezident_roman!= "da" and  rezident_roman!="nu":
+            print("Alegeti un raspuns valid(da/nu)!")
+            continue
+        else: 
+            break
+        
+print('Va rugam completati urmatoarele campuri')
+while True:
+    print('Anul nasterii:')
+    an = input()
+    if  1800>int(an)<2999 :
+        print("Introduceti un an relevant 1800-2999")
+        continue
+    else: 
+        break
+
+while True:
+    print('Luna in care v-ati nascut:')
+    luna = input()
+    if month(luna)=='Invalid month':
+        print("Alegeti un raspuns valid(Ianuarie/Februarie...etc )")
+        continue
+    else: 
+        break
+
+while True:
+    print('Ziua in care v-ati nascut:')
+    ziua = input()
+    if 0>int(ziua)<32:
+        print("Alegeti un raspuns valid(1/2/3...etc )")
+        continue
+    else: 
+        break
+    
+while True:
+    print('Judetul in care v-ati nascut:')
+    judet = input()
+    if reg(judet)=='Invalid region':
+        print("Alegeti un raspuns valid(Valcea/Bucuresti/Ilfov...etc )")
+        continue
+    else: 
+        break
+
+while True:
+    print('Sex:')
+    sex = input ()
+    if sex!= "M" and  sex!="F":
+        print("Alegeti un raspuns valid(M/F)!")
+        continue
+    else: 
+        break
+    
+while True:
+    print ('Introduceti CNP-ul:')
+    cnp = input()
+    if len(cnp)!=13:
+        print ("Raspunsul nu este valid, introduceti un CNP corect(13cifre)")
+        continue
+    else:
+        break
+
+
+##variables that are in CNP
+S=0
+AA=0
+LL=0
+ZZ=0
+JJ=0
+N1=0
+N2=0
+N3=0
+C=0
+##variables that are not in CNP
+var=0
+bisect=0
+flag1=0
+result=0
+cnp2=""
+nr='279146358279'
+##S procesing 
+if nationalitate == "nu":
+    if rezident_roman == "da":
+        if sex == "M":
+            S=7
+        else:
+            S=8
+    else: 
+        S=9
+else:
+    if 1800<=int(an)<=1899:
+        var=3
+    elif 1900<=int(an)<=1999:
+        var=1
+    elif 2000<=int(an)<=2999:
+        var=5
+if sex == "M":
+    S=var
+else:
+    S=var+1
+cnp2=cnp2 + str(S)
+##AA procesing 
+if int(an)%4 == 0:
+    bisect=1
+else:
+    bisect=0
+if 1<=S<=9:
+    AA=int(an)%100
+
+
+cnp2=cnp2+ str (AA)
+####LL procesing 
+LL=month(luna)
+
+if LL==2:
+    flag1=2
+elif LL==4 or LL==6 or LL==9 or LL==11:
+   flag1=1 
+else:
+    flag1=0
+    
+if 1<=LL<=9:
+    LL= '%d%d' % (0, LL)
+else:
+    LL=LL
+
+cnp2=cnp2 +str(LL)
+####ZZ procesing
+ZZ = int(ziua)
+if flag1==0:
+    if 1<=ZZ<=9:
+        ZZ= '%d%d' % (0, ZZ)
+    else:
+        ZZ=ZZ   
+elif flag1==1:
+    if ZZ!=31:
+        if 1<=ZZ<=9:
+            ZZ= '%d%d' % (0, ZZ)
+        else:
+            ZZ=ZZ
+    else:
+        print("CNP-ul nu este valid")
+else:
+    if bisect==1:
+        if ZZ<29:
+            if 1<=ZZ<=9:
+                ZZ= '%d%d' % (0, ZZ)
+            else:
+                ZZ=ZZ
+        else:
+            print("CNP-ul nu este valid!")
+    else:
+        if ZZ<30:
+            if 1<=ZZ<=9:
+                ZZ= '%d%d' % (0, ZZ)
+            else:
+                ZZ=ZZ
+        else: 
+            print("CNP-ul nu este valid")
+            
+cnp2=cnp2 + str(ZZ)         
+#####JJ procesing
+JJ=reg(judet)
+if 1<=JJ<=9:
+    JJ = '%d%d' % (0, ZZ)
+else:
+    JJ=JJ
+cnp2=cnp2 + str(JJ)
+####NNN procesing
+
+NNN=cnp[9:12]
+cnp2=cnp2 +str(NNN)
+####C procesing
+
+for i in range (0,12):
+    result=int(cnp2[i])*int(nr[i]) + result
+if result%11==10:
+    C=1
+else:
+    C=result%11
+    
+cnp2=cnp2 + str(C)
+#print (cnp2)
+
+####CNP validation 
+if cnp2==cnp:
+    print("CNP-ul dvs este validat!")
+else:
+    print ("CNP-ul dvs nu este valid!")
+    
